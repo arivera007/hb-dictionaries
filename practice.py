@@ -32,7 +32,8 @@ def without_duplicates(words):
         [2, 33333, 111111]
     """
 
-    return []
+    
+    return list(set(words))     # Converting to set automagically deletes duplicates.
 
 
 def find_unique_common_items(items1, items2):
@@ -62,7 +63,7 @@ def find_unique_common_items(items1, items2):
         [2]
     """
 
-    return []
+    return list(set(items1) & set(items2))          #Interseccion of both sets.
 
 def get_sum_zero_pairs(numbers):
     """Given list of numbers, return list of pairs summing to 0.
@@ -90,8 +91,13 @@ def get_sum_zero_pairs(numbers):
         >>> sort_pairs( get_sum_zero_pairs([1, 3, -1, 1, 1, 0]) )
         [[-1, 1], [0, 0]]
     """
-
-    return []
+    # pairs = []
+    # for i in numbers:
+    #     x = numbers[i]
+    #     pairs.append([[x, y] for y in numbers if x + y == 0])
+    
+    list_of_tuples = list(set([tuple(sorted([x,y])) for x in numbers for y in numbers if x + y == 0]))   # Need to rethink this one, great excersie!
+    return [list(pair) for pair in list_of_tuples]
 
 
 def top_chars(phrase):
@@ -118,8 +124,23 @@ def top_chars(phrase):
     Do not count spaces, but count all other characters.
 
     """
+    from collections import Counter
+    
+    char_counter_dict = Counter(phrase)
+    del char_counter_dict[' ']
+    most_common_char = char_counter_dict.most_common(1)
 
-    return []
+    result = []
+    max_value = most_common_char[0][1]
+    for letter, freq in char_counter_dict.iteritems():
+        if freq == max_value:
+            result.append(letter)
+            
+    return result
+        
+
+    # char_counter_dict = {x:phrase.count(x) for x in phrase}    # Trying to do it by hand
+    # print char_counter_dict
 
 #####################################################################
 # You can ignore everything below this.
