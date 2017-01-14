@@ -191,7 +191,26 @@ def kids_game(names):
     good solutions here will definitely require a dictionary.
     """
 
-    return []
+    # Building dictionary with initial letter as key, and list of words starting with that k as value.
+    names_initials = {}
+    for word in names[1:]:              # Ignore first letter in the list, since it will always be the first in the result.
+        names_initials[word[0]] = names_initials.get(word[0],[]) + [word]
+
+   
+    # Build results list iterating through dictionary
+    current_word = names[0]
+    game_result = [current_word]            # First word is always the same
+
+    while True:
+        name_list = names_initials.get(current_word[-1:], [])       # Get list of words that start with the last letter if the current word.
+        if not name_list:                                           # If list empty, I am done, so I break loop. (If I have time, change the infinite loop)
+            break
+        else:
+            current_word = name_list[0]                             # Current word will be the new one.
+            game_result.append(current_word)                        # Append to the result and...
+            del name_list[0]                                        # Delete inPlace, so dictionary's list stay up to date.
+    
+    return game_result
 
 #####################################################################
 # You can ignore everything below this.
