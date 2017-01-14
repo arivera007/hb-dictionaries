@@ -28,8 +28,16 @@ def count_words(phrase):
         >>> print_dict(count_words("Porcupine see, porcupine do."))
         {'Porcupine': 1, 'do.': 1, 'porcupine': 1, 'see,': 1}
     """
+    
+    # from collections import Counter           # If allowed to use this library, this would be one solution. It runs.
+    # return Counter(phrase.split(' '))         # Split the phrase getting a list of words and send it to 'Counter' to do the work.
 
-    return {}
+
+    # Split the phrase into a list of words, and then using string.count() to get value.
+    # Not converting from string to list for count(). It would work either way, maybe a little slower.
+    return {x:phrase.count(x) for x in phrase.split(' ')}   
+
+  
 
 
 def get_melon_price(melon_name):
@@ -54,7 +62,9 @@ def get_melon_price(melon_name):
         'No price found'
     """
 
-    return 0
+    melons_prices = {'Watermelon': 2.95, 'Cantaloupe': 2.50, 'Musk': 3.25, 'Christmas': 14.25}
+
+    return melons_prices.get(melon_name, 'No price found')      # Get the price from dict, but if it doesn't exist return a string woth the message.
 
 
 def word_length_sorted(words):
@@ -75,8 +85,13 @@ def word_length_sorted(words):
         >>> word_length_sorted(["porcupine", "ok"])
         [(2, ['ok']), (9, ['porcupine'])]
     """
-
-    return []
+    
+    words_counts = {word:len(word) for word in words}                       # Built dict with lenght counts by word.
+    words_lengts = {}
+    for word, size in words_counts.iteritems():                             # FOr each pair in the dictionary of word:lenght
+        words_lengts[size] =  sorted(words_lengts.get(size,[]) + [word])    # If it exists get that list, if not create new one. Then just add current word. Sort.
+        
+    return sorted(words_lengts.items())                                     # Return a list of all the items sorted.
 
 
 def translate_to_pirate_talk(phrase):
@@ -117,8 +132,17 @@ def translate_to_pirate_talk(phrase):
         >>> translate_to_pirate_talk("my student is not a man!")
         'me swabbie be not a man!'
     """
+    # Dictionary with translation of words
+    pirate_trans = {'sir': 'matey', 'hotel': 'fleabag inn', 'student': 'swabbie', 
+                    'man': 'matey', 'professor': 'foul blaggart', 'restaurant': 'galley',
+                    'your': 'yer', 'excuse': 'arr', 'students': 'swabbies', 'are': 'be',
+                    'restroom': 'head', 'my': 'me', 'is': 'be'}
 
-    return ""
+    pirate_phrase = []
+    for word in phrase.split(' '):                              # Split words getting a list and transverse each one
+        pirate_phrase.append(pirate_trans.get(word, word))      # Create a list with the words substituting the pirate translation if there is one.
+
+    return " ".join(pirate_phrase)                              # Join the list of words back into a string
 
 
 def kids_game(names):
